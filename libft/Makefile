@@ -96,12 +96,13 @@ bonus: $(BONUS_OBJS)
 # Clean up
 .phony = clean
 clean: 
-	rm -rf $(OBJS) $(BONUS_OBJS)
-
+	@rm -rf $(OBJS) $(BONUS_OBJS)
+	@echo 'deleted libft bonus objs'
 # Full clean up
 .phony = fclean
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
+	@echo 'deleted libft.a'
 
 # Clean up and re-create
 .phony = re

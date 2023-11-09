@@ -9,28 +9,38 @@ LIB = LIBFT
 
 # List of source files
 HEADER = libft.h ft_printf.h
+BONUS_HEADER = libft.h ft_printf_bonus.h
 
 SRCS = printf.c conversion.c
+BONUS_SRC = printf_bonus.c conversion_bonus.c conversion1_bonus.c
 
 #The objects
 OBJS = $(SRCS:%.c=%.o)
+BONUS_OBJS = $(BONUS_SRC:%.c=%.o)
 
 # CC Flags
 CFLAGS = -Wall -Wextra -Werror 
 
 # Default rule - Both basic and bonus
 .phony = all
-all: $(OBJS) $(NAME) 
+all: manda
 
-$(NAME): $(OBJS)
+.phony = bonus
+bonus: $(NAME) $(BONUS_OBJS)
+	
+.phony = manda
+manda: $(NAME) $(OBJS)
+
+$(NAME):
 	@make -C $(LIB)
 	@cp libft/libft.a .
 	@mv libft.a $(NAME)
-	@ar rcs $(NAME) $(OBJS)
-	@echo "printf compiled"
+	@echo "created, moved and renamed libftprintf.a"
 
-%.o: %.c 
-	@cc $(CFLAGS) -c $(SRCS) -I $(HEADER)
+%.o: %.c
+	@cc $(CFLAGS) -c $< -I $(HEADER)
+	ar rc $(NAME) $@
+	@ranlib $(NAME)
 
 .phony = clean
 clean:
