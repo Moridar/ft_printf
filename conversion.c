@@ -6,42 +6,40 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 14:57:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/08 12:01:21 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/09 09:44:31 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "ft_printf.h"
 
 int	prints(char *str)
 {
 	if (!str)
 		str = "(null)";
-	ft_putstr_fd(str, 1);
-	return (ft_strlen(str));
+	return (write(1, str, ft_strlen(str)));
 }
 
 int	printp(unsigned long l)
 {
 	int	len;
 
-	len = prints("0x");
+	len = write(1, "0x", 2);
+	if (len < 0)
+		return (-1);
 	len += printhex(l, 0);
 	return (len);
 }
 
 int	printd(int i)
 {
-	int	len;
+	int		len;
+	char	*str;
 
-	ft_putnbr_fd(i, 1);
-	len = 0;
-	if (i <= 0)
-		len++;
-	while (i != 0)
-	{
-		len++;
-		i /= 10;
-	}
+	str = ft_itoa(i);
+	if (!str)
+		return (-1);
+	len = prints(str);
+	free(str);
 	return (len);
 }
 
@@ -52,8 +50,11 @@ int	printu(unsigned int ui)
 	len = 0;
 	if (ui >= 10)
 		len += printu(ui / 10);
+	if (len < 0)
+		return (-1);
 	ui = ui % 10 + '0';
-	write(1, &ui, 1);
+	if (write(1, &ui, 1) < 0)
+		return (-1);
 	return (1 + len);
 }
 
@@ -69,7 +70,10 @@ int	printhex(unsigned long ui, int upper)
 		hexset = "0123456789abcdef";
 	if (ui >= 16)
 		len += printhex(ui / 16, upper);
+	if (len < 0)
+		return (-1);
 	ui = ui % 16;
-	write(1, hexset + ui, 1);
+	if (write(1, hexset + ui, 1) < 0)
+		return (-1);
 	return (len + 1);
 }

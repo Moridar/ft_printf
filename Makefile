@@ -8,30 +8,28 @@ NAME = libftprintf.a
 LIB = LIBFT
 
 # List of source files
-HEADER = libft.h printf.h
+HEADER = libft.h ft_printf.h
 
 SRCS = printf.c conversion.c
 
 #The objects
 OBJS = $(SRCS:%.c=%.o)
 
-
-
 # CC Flags
 CFLAGS = -Wall -Wextra -Werror 
 
 # Default rule - Both basic and bonus
 .phony = all
-all: $(NAME)
+all: $(OBJS) $(NAME) 
 
-$(NAME): $(OBJS) 
+$(NAME): $(OBJS)
 	@make -C $(LIB)
 	@cp libft/libft.a .
 	@mv libft.a $(NAME)
 	@ar rcs $(NAME) $(OBJS)
 	@echo "printf compiled"
 
-$(OBJS):
+%.o: %.c 
 	@cc $(CFLAGS) -c $(SRCS) -I $(HEADER)
 
 .phony = clean
