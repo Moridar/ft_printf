@@ -1,53 +1,71 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_itoa_hex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 12:28:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/10 13:18:46 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/10 17:27:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf_bonus.h"
 
-static int	intlen(int n)
+static int	nlen(unsigned long n, int base)
 {
-	int	i;
+	int				i;
+	unsigned long	res;
 
 	i = 1;
-	while ((int) ft_power(10, i) <= n)
-		if (++i == 10)
+	res = base;
+	while (res <= n)
+	{
+		i++;
+		if (res > res * base)
 			break ;
+		res *= base;
+	}
 	return (i);
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa_hex(unsigned long n, int upper)
 {
-	int		neg;
+	char	*str;
+	int		i;
+	char	*hexset;
+
+	if (upper)
+		hexset = "0123456789ABCDEF";
+	else
+		hexset = "0123456789abcdef";
+	i = nlen(n, 16) + 1;
+	str = malloc(i--);
+	if (!str)
+		return (0);
+	str[i--] = 0;
+	while (i >= 0)
+	{
+		str[i--] = hexset[n % 16];
+		n /= 16;
+	}
+	return (str);
+}
+
+char	*ft_itoa_unsigned(unsigned long n)
+{
 	char	*str;
 	int		i;
 
-	neg = 0;
-	if (n < 0)
-	{
-		if (n == -2147483648)
-			return (ft_strdup("-2147483648"));
-		n = n * -1;
-		neg = 1;
-	}
-	i = intlen(n) + 1;
-	str = malloc(neg + i--);
+	i = nlen(n, 10) + 1;
+	str = malloc(i--);
 	if (!str)
 		return (0);
-	str[neg + i--] = 0;
+	str[i--] = 0;
 	while (i >= 0)
 	{
-		str[neg + i--] = n % 10 + 48;
+		str[i--] = n % 10 + '0';
 		n /= 10;
 	}
-	if (neg)
-		str[0] = '-';
 	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 14:48:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/09 13:40:25 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/10 19:07:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_flags	*initflags(void)
 	{
 		flags->leftjustify = 0;
 		flags->width = 0;
-		flags->precsion = 1;
+		flags->precsion = -1;
 		flags->hexsign = 0;
 		flags->sign = 0;
 		flags->space = 0;
@@ -40,15 +40,17 @@ void	setnumber(const char **str, int *var, va_list argptr)
 		return ;
 	}
 	*var = ft_atoi(*str);
+	if (!ft_isdigit(**str))
+	{
+		--*str;
+		return ;
+	}
 	while (ft_isdigit(*(*str + 1)))
 		(*str)++;
 }
 
-int	checkflags(const char **str, va_list argptr)
+int	checkflags(const char **str, va_list argptr, t_flags *flags)
 {
-	t_flags	*flags;
-
-	flags = initflags();
 	while (*(++*str))
 	{
 		if (**str == '0')
@@ -70,28 +72,33 @@ int	checkflags(const char **str, va_list argptr)
 		else
 			break ;
 	}
-	return (convert(**str, argptr, flags));
+	//printflags(flags);
+	return (convert(str, argptr, flags));
 }
 
-int	convert(char c, va_list argptr, t_flags *flags)
+int	convert(const char **str, va_list argptr, t_flags *flags)
 {
+	char	c;
+
+	c = **str;
 	if (c == '%')
 		return (printc(c, flags));
-	else if (c == 'c')
+	if (c == 'c')
 		return (printc(va_arg(argptr, int), flags));
-	else if (c == 's')
-		return (prints(va_arg(argptr, char *)));
-	else if (c == 'p')
-		return (printp((unsigned long)va_arg(argptr, void *)));
-	else if (c == 'd' || c == 'i')
-		return (printd(va_arg(argptr, int)));
-	else if (c == 'u')
-		return (printu(va_arg(argptr, unsigned int)));
-	else if (c == 'x')
-		return (printhex(va_arg(argptr, unsigned int), 0));
-	else if (c == 'X')
-		return (printhex(va_arg(argptr, unsigned int), 1));
-	return (-1);
+	if (c == 's')
+		return (prints(va_arg(argptr, char *), flags));
+	if (c == 'p')
+		return (printp((unsigned long)va_arg(argptr, void *), flags));
+	if (c == 'd' || c == 'i')
+		return (printd(va_arg(argptr, int), flags));
+	if (c == 'u')
+		return (printu(va_arg(argptr, unsigned int), flags));
+	if (c == 'x')
+		return (printhex(va_arg(argptr, unsigned int), 0, flags));
+	if (c == 'X')
+		return (printhex(va_arg(argptr, unsigned int), 1, flags));
+	--*str;
+	return (-2);
 }
 
 int	ft_printf(const char *str, ...)
@@ -99,6 +106,7 @@ int	ft_printf(const char *str, ...)
 	va_list	argptr;
 	int		i;
 	int		checksum;
+	t_flags	*flags;
 
 	va_start(argptr, str);
 	i = 0;
@@ -107,10 +115,15 @@ int	ft_printf(const char *str, ...)
 		if (*str != '%')
 			checksum = write(1, str, 1);
 		else
-			checksum = checkflags(&str, argptr);
+		{
+			flags = initflags();
+			checksum = checkflags(&str, argptr, flags);
+			free(flags);
+		}
 		if (checksum == -1)
 			return (-1);
-		i += checksum;
+		if (checksum >= 0)
+			i += checksum;
 		str++;
 	}
 	va_end(argptr);

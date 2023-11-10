@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:07:09 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/09 13:04:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/10 19:03:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,18 @@ typedef struct s_flags
 	int	space;
 	int	zero;
 }		t_flags;
-int	ft_printf(const char *str, ...);
-int	convert(char c, va_list argptr, t_flags *flags);
-int	printp(unsigned long l);
-int	printd(int i);
-int	printu(unsigned int ui);
-int	printhex(unsigned long ui, int upper);
-int	prints(char *str);
-int	printc(char c, t_flags *flags);
+int		ft_printf(const char *str, ...);
+int		convert(const char **str, va_list argptr, t_flags *flags);
+int		printp(unsigned long l, t_flags *flags);
+int		printd(int i, t_flags *flags);
+int		printu(unsigned int ui, t_flags *flags);
+int		printhex(unsigned long ui, int upper, t_flags *flags);
+int		prints(char *str, t_flags *flags);
+int		printc(char c, t_flags *flags);
+char	*ft_itoa_hex(unsigned long n, int upper);
+char	*ft_itoa_unsigned(unsigned long n);
+char	*checkprecsion(char *str, t_flags *flags);
+char	*checksign(char *str, t_flags *flags);
+void	printflags(t_flags *flags);
 
 #endif

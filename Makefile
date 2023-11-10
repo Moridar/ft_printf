@@ -12,7 +12,7 @@ HEADER = libft.h ft_printf.h
 BONUS_HEADER = libft.h ft_printf_bonus.h
 
 SRCS = printf.c conversion.c
-BONUS_SRC = printf_bonus.c conversion_bonus.c conversion1_bonus.c
+BONUS_SRC = printf_bonus.c conversion_bonus.c conversion1_bonus.c ft_itoa_hex.c
 
 #The objects
 OBJS = $(SRCS:%.c=%.o)
