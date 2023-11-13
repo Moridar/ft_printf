@@ -50,7 +50,7 @@ clean:
 .phony = fclean
 fclean: clean
 	@rm -rf $(NAME)
-	@make -C $(LIB) fclean
+	@rm -rf libft/libft.a
 
 .phony = re
 re: fclean all

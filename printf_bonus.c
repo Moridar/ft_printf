@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 14:48:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/13 14:02:50 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/13 16:59:30 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	convert(const char **str, va_list argptr, t_flags *flags)
 	if (**str == 'X')
 		return (printhex(va_arg(argptr, unsigned int), 1, flags));
 	--*str;
-	return (-2);
+	return (0);
 }
 
 int	ft_printf(const char *str, ...)
@@ -108,7 +108,8 @@ int	ft_printf(const char *str, ...)
 
 	va_start(argptr, str);
 	i = 0;
-	while (*str)
+	checksum = 0;
+	while (*str && checksum >= 0)
 	{
 		if (*str != '%')
 			checksum = write(1, str, 1);
@@ -118,12 +119,11 @@ int	ft_printf(const char *str, ...)
 			checksum = checkflags(&str, argptr, flags);
 			free(flags);
 		}
-		if (checksum == -1)
-			return (-1);
-		if (checksum >= 0)
-			i += checksum;
+		i += checksum;
 		str++;
 	}
 	va_end(argptr);
+	if (checksum == -1)
+		return (-1);
 	return (i);
 }
