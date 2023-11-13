@@ -6,12 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:53:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/13 15:29:24 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/13 16:14:30 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
-#include <stdio.h>
 
 int	printc(char c, t_flags *flags)
 {

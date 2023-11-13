@@ -6,14 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:07:09 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/09 12:55:02 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/13 16:14:47 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 # include <stdarg.h>
-# include <stdio.h>
 # include "libft/libft.h"
 
 int	ft_printf(const char *str, ...);

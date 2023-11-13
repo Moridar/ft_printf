@@ -11,15 +11,16 @@ LIB = LIBFT
 HEADER = libft.h ft_printf.h
 BONUS_HEADER = libft.h ft_printf_bonus.h
 
-SRCS = printf.c conversion.c
-BONUS_SRC = printf_bonus.c conversion_bonus.c conversion1_bonus.c ft_itoa_hex.c
+SRCS = printf.c format.c
+BONUS_SRC = printf_bonus.c format_bonus.c format1_bonus.c ft_itoa_hex.c
 
 #The objects
 OBJS = $(SRCS:%.c=%.o)
 BONUS_OBJS = $(BONUS_SRC:%.c=%.o)
 
 # CC Flags
-CFLAGS = -Wall -Wextra -Werror 
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
 # Default rule - Both basic and bonus
 .phony = all
@@ -31,16 +32,15 @@ bonus: $(NAME) $(BONUS_OBJS)
 .phony = manda
 manda: $(NAME) $(OBJS)
 
-$(NAME):
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -I $(HEADER)
+	ar -r $(NAME) $@
+
+$(NAME): 
 	@make -C $(LIB)
 	@cp libft/libft.a .
 	@mv libft.a $(NAME)
-	@echo "created, moved and renamed libftprintf.a"
-
-%.o: %.c
-	@cc $(CFLAGS) -c $< -I $(HEADER)
-	ar rc $(NAME) $@
-	@ranlib $(NAME)
+	@echo "created, copied and renamed libftprintf.a"
 
 .phony = clean
 clean:
