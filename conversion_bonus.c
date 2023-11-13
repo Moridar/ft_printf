@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 14:57:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/10 19:00:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:34:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	prints(char *str, t_flags *flags)
 	int		totallen;
 	char	*filling;
 
-	if (flags->space && ((!*str) || (!str)))
-		str = " ";
 	if (!str)
 		str = "(null)";
 	if (flags->zero && !flags->leftjustify)
@@ -45,7 +43,9 @@ int	printp(unsigned long l, t_flags *flags)
 	int		len;
 
 	flags->hexsign = 1;
-	len = printhex(l, 0, flags);
+	len = printhex(l, 2, flags);
+	if (len < 0)
+		return (-1);
 	return (len);
 }
 
@@ -57,8 +57,11 @@ int	printd(int i, t_flags *flags)
 	str = ft_itoa(i);
 	if (!str)
 		return (-1);
-	str = checksign(str, flags);
+	if (flags->precsion >= 0)
+		flags->zero = 0;
 	str = checkprecsion(str, flags);
+	str = checksign(str, flags);
+	str = checkzero(str, flags);
 	flags->precsion = ft_strlen(str);
 	len = prints(str, flags);
 	free(str);
@@ -73,6 +76,8 @@ int	printu(unsigned int ui, t_flags *flags)
 	str = ft_itoa_unsigned(ui);
 	if (!str)
 		return (-1);
+	if (flags->precsion >= 0)
+		flags->zero = 0;
 	str = checkprecsion(str, flags);
 	flags->precsion = -1;
 	len = prints(str, flags);
@@ -88,12 +93,17 @@ int	printhex(unsigned long ui, int upper, t_flags *flags)
 	char	*str;
 
 	hexstr = ft_itoa_hex(ui, upper);
-	hexstr = checkprecsion(hexstr, flags);
+	if (flags->precsion >= 0)
+		flags->zero = 0;
 	prefix = "";
-	if (flags->hexsign && upper)
+	if (ui == 0 && upper != 2)
+		flags->hexsign = 0;
+	else if (flags->hexsign && upper == 1)
 		prefix = "0X";
-	else if (flags->hexsign)
+	else if (flags->hexsign || upper == 2)
 		prefix = "0x";
+	hexstr = checkprecsion(hexstr, flags);
+	hexstr = checkzero(hexstr, flags);
 	str = ft_strjoin(prefix, hexstr);
 	flags->precsion = -1;
 	len = prints(str, flags);

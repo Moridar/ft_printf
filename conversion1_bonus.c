@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:53:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/10 19:06:37 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:35:07 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,15 @@ char	*checkprecsion(char *str, t_flags *flags)
 	int		n;
 	int		sign;
 
-	if (flags->precsion == 0 && *str == '0')
+	if (*str == '0' && flags->precsion == 0)
 	{
 		free(str);
 		return (ft_strdup(""));
 	}
-	if (flags->precsion < 0 || flags->precsion < (int) ft_strlen(str))
+	if (flags->precsion <= 0 || flags->precsion < (int) ft_strlen(str))
 		return (str);
 	sign = 0;
-	if (*str == '-' || *str == '+')
+	if (*str == '-')
 		sign = 1;
 	n = flags->precsion - (int) ft_strlen(str + sign);
 	zerostr = malloc(n + 1 + sign);
@@ -62,21 +62,50 @@ char	*checkprecsion(char *str, t_flags *flags)
 	return (newstr);
 }
 
+char	*checkzero(char *str, t_flags *flags)
+{
+	char	*zerostr;
+	char	*newstr;
+	int		nzero;
+	int		sign;
+
+	if (!flags->zero
+		|| flags->width - 2 * flags->hexsign <= (int) ft_strlen(str))
+		return (str);
+	sign = 0;
+	if (*str == '-' || *str == '+' || *str == ' ')
+		sign = 1;
+	nzero = flags->width - (int) ft_strlen(str) - 2 * flags->hexsign;
+	zerostr = malloc(nzero + sign + 1);
+	zerostr[nzero + sign] = 0;
+	ft_memset(zerostr + sign, '0', nzero);
+	if (sign)
+		zerostr[0] = *str;
+	newstr = ft_strjoin(zerostr, str + sign);
+	free(zerostr);
+	free(str);
+	return (newstr);
+}
+
 char	*checksign(char *str, t_flags *flags)
 {
 	char	*tmp;
 
-	if (!flags->sign || *str == '-')
+	if (*str == '-')
 		return (str);
-	tmp = str;
-	str = ft_strjoin("+", str);
-	free(tmp);
+	if (flags->sign)
+	{
+		tmp = str;
+		str = ft_strjoin("+", str);
+		free(tmp);
+		return (str);
+	}
+	if (flags->space)
+	{
+		tmp = str;
+		str = ft_strjoin(" ", str);
+		free(tmp);
+		return (str);
+	}
 	return (str);
-}
-
-void	printflags(t_flags *flags)
-{
-	printf("leftjus: %d\nwidth: %d\nprec: %d\nhexsign: %d\nsign: %d\nspace: %d\nzero: %d\n",
-		flags->leftjustify, flags->width, flags->precsion,
-		flags->hexsign, flags->sign, flags->space, flags->zero);
 }

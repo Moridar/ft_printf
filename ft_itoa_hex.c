@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 12:28:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/10 17:27:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/13 12:25:27 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_itoa_hex(unsigned long n, int upper)
 	int		i;
 	char	*hexset;
 
-	if (upper)
+	if (upper == 1)
 		hexset = "0123456789ABCDEF";
 	else
 		hexset = "0123456789abcdef";

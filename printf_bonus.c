@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 14:48:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/10 19:07:01 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:35:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	checkflags(const char **str, va_list argptr, t_flags *flags)
 		else
 			break ;
 	}
-	//printflags(flags);
 	return (convert(str, argptr, flags));
 }
 
