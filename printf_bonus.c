@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 14:48:35 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/13 13:35:40 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/13 14:02:50 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	setnumber(const char **str, int *var, va_list argptr)
 
 int	checkflags(const char **str, va_list argptr, t_flags *flags)
 {
+	if (!flags)
+		return (-1);
 	while (*(++*str))
 	{
 		if (**str == '0')
@@ -77,24 +79,21 @@ int	checkflags(const char **str, va_list argptr, t_flags *flags)
 
 int	convert(const char **str, va_list argptr, t_flags *flags)
 {
-	char	c;
-
-	c = **str;
-	if (c == '%')
-		return (printc(c, flags));
-	if (c == 'c')
+	if (**str == '%')
+		return (printc(**str, flags));
+	if (**str == 'c')
 		return (printc(va_arg(argptr, int), flags));
-	if (c == 's')
+	if (**str == 's')
 		return (prints(va_arg(argptr, char *), flags));
-	if (c == 'p')
+	if (**str == 'p')
 		return (printp((unsigned long)va_arg(argptr, void *), flags));
-	if (c == 'd' || c == 'i')
+	if (**str == 'd' || **str == 'i')
 		return (printd(va_arg(argptr, int), flags));
-	if (c == 'u')
+	if (**str == 'u')
 		return (printu(va_arg(argptr, unsigned int), flags));
-	if (c == 'x')
+	if (**str == 'x')
 		return (printhex(va_arg(argptr, unsigned int), 0, flags));
-	if (c == 'X')
+	if (**str == 'X')
 		return (printhex(va_arg(argptr, unsigned int), 1, flags));
 	--*str;
 	return (-2);

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 12:28:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/13 12:25:27 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:29:32 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_itoa_hex(unsigned long n, int upper)
 	i = nlen(n, 16) + 1;
 	str = malloc(i--);
 	if (!str)
-		return (0);
+		return (NULL);
 	str[i--] = 0;
 	while (i >= 0)
 	{
@@ -60,7 +60,7 @@ char	*ft_itoa_unsigned(unsigned long n)
 	i = nlen(n, 10) + 1;
 	str = malloc(i--);
 	if (!str)
-		return (0);
+		return (NULL);
 	str[i--] = 0;
 	while (i >= 0)
 	{
@@ -68,4 +68,10 @@ char	*ft_itoa_unsigned(unsigned long n)
 		n /= 10;
 	}
 	return (str);
+}
+
+char	*freeandreturn(char *freethis, char *retur)
+{
+	free(freethis);
+	return (retur);
 }

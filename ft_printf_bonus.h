@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:07:09 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/13 10:45:02 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:28:21 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*ft_itoa_unsigned(unsigned long n);
 char	*checkprecsion(char *str, t_flags *flags);
 char	*checksign(char *str, t_flags *flags);
 char	*checkzero(char *str, t_flags *flags);
-void	printflags(t_flags *flags);
+char	*addprefix(char *hexstr, int upper, t_flags *flags);
+char	*freeandreturn(char *freethis, char *retur);
 
 #endif

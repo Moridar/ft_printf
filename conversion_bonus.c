@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 14:57:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/13 13:34:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/13 14:59:14 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	printd(int i, t_flags *flags)
 	str = checkprecsion(str, flags);
 	str = checksign(str, flags);
 	str = checkzero(str, flags);
+	if (!str)
+		return (-1);
 	flags->precsion = ft_strlen(str);
 	len = prints(str, flags);
 	free(str);
@@ -79,6 +81,8 @@ int	printu(unsigned int ui, t_flags *flags)
 	if (flags->precsion >= 0)
 		flags->zero = 0;
 	str = checkprecsion(str, flags);
+	if (!str)
+		return (-1);
 	flags->precsion = -1;
 	len = prints(str, flags);
 	free(str);
@@ -88,26 +92,24 @@ int	printu(unsigned int ui, t_flags *flags)
 int	printhex(unsigned long ui, int upper, t_flags *flags)
 {
 	int		len;
-	char	*prefix;
 	char	*hexstr;
-	char	*str;
 
 	hexstr = ft_itoa_hex(ui, upper);
+	if (!hexstr)
+		return (-1);
 	if (flags->precsion >= 0)
 		flags->zero = 0;
-	prefix = "";
 	if (ui == 0 && upper != 2)
 		flags->hexsign = 0;
-	else if (flags->hexsign && upper == 1)
-		prefix = "0X";
-	else if (flags->hexsign || upper == 2)
-		prefix = "0x";
 	hexstr = checkprecsion(hexstr, flags);
 	hexstr = checkzero(hexstr, flags);
-	str = ft_strjoin(prefix, hexstr);
+	if (!hexstr)
+		return (-1);
+	hexstr = addprefix(hexstr, upper, flags);
+	if (!hexstr)
+		return (-1);
 	flags->precsion = -1;
-	len = prints(str, flags);
+	len = prints(hexstr, flags);
 	free(hexstr);
-	free(str);
 	return (len);
 }
