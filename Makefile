@@ -12,7 +12,7 @@ HEADER = libft.h ft_printf.h
 BONUS_HEADER = libft.h ft_printf_bonus.h
 
 SRCS = ft_printf.c ft_printf_format.c
-BONUS_SRC = ft_printf_bonus.c ft_printf_cs_bonus.c ft_printf_dipux_bonus.c ft_itoa_type_bonus.c
+BONUS_SRC = ft_printf_bonus.c ft_printf_cs_bonus.c ft_printf_dipux_bonus.c ft_itoa_type_bonus.c ft_printf_helpers_bonus.c
 
 #The objects
 OBJS = $(SRCS:%.c=%.o)
