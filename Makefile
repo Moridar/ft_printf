@@ -5,15 +5,18 @@
 
 #Libary name
 NAME = libftprintf.a
-LIB = LIBFT
+LIB = libft/libft.a
+
+#Library dir
+LIBDIR = libft
 
 # List of source files
-HEADER = libft.h ft_printf.h
+HEADER = libft.h ft_printf.h ft_printf_bonus.h
 BONUS_HEADER = libft.h ft_printf_bonus.h
 
 SRCS = ft_printf.c ft_printf_format.c
 BONUS_SRC = ft_printf_bonus.c ft_printf_cs_bonus.c ft_printf_dipux_bonus.c ft_itoa_type_bonus.c ft_printf_helpers_bonus.c
-
+LIBFT_SRC = $(wildcard libft/*.c)
 #The objects
 OBJS = $(SRCS:%.c=%.o)
 BONUS_OBJS = $(BONUS_SRC:%.c=%.o)
@@ -26,26 +29,27 @@ CFLAGS = -Wall -Wextra -Werror
 .phony = all
 all: manda
 
+$(NAME): all
+
 .phony = bonus
-bonus: $(NAME) $(BONUS_OBJS)
-	
+bonus: $(LIB) $(BONUS_OBJS)
+
 .phony = manda
-manda: $(NAME) $(OBJS)
+manda: $(LIB) $(OBJS)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -I $(HEADER)
-	ar -r $(NAME) $@
+	ar rus $(NAME) $@
 
-$(NAME):
-	@make -C $(LIB)
-	@cp libft/libft.a .
-	@mv libft.a $(NAME)
-	@echo "created, copied and renamed libftprintf.a"
+$(LIB): $(LIBFT_SRC)
+	make -C $(LIBDIR)
+	cp libft/libft.a .
+	mv libft.a $(NAME)
 
 .phony = clean
 clean:
 	@rm -rf *.o
-	@make -C $(LIB) clean
+	@make -C $(LIBDIR) clean
 
 .phony = fclean
 fclean: clean
