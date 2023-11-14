@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa_hex.c                                      :+:      :+:    :+:   */
+/*   itoa_hex_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 12:28:02 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/13 15:29:32 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/14 09:07:58 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,3 @@ char	*ft_itoa_unsigned(unsigned long n)
 	return (str);
 }
 
-char	*freeandreturn(char *freethis, char *retur)
-{
-	free(freethis);
-	return (retur);
-}

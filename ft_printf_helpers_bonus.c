@@ -1,35 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   conversion1_bonus.c                                :+:      :+:    :+:   */
+/*   ft_printf_helpers_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 12:53:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/13 16:14:30 by bsyvasal         ###   ########.fr       */
+/*   Created: 2023/11/14 09:06:52 by bsyvasal          #+#    #+#             */
+/*   Updated: 2023/11/14 09:20:48 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-int	printc(char c, t_flags *flags)
+char	*freeandreturn(char *freethis, char *retur)
 {
-	int		len;
-	char	*filling;
-
-	if (flags->zero && !flags->leftjustify)
-		filling = "0";
-	else
-		filling = " ";
-	len = 0;
-	if (flags->leftjustify && write(1, &c, 1) < 0)
-		return (-1);
-	while (flags->width > len++ + 1)
-		if (write(1, filling, 1) < 0)
-			return (-1);
-	if (!flags->leftjustify && write(1, &c, 1) < 0)
-		return (-1);
-	return (len);
+	free(freethis);
+	return (retur);
 }
 
 char	*checkprecsion(char *str, t_flags *flags)
@@ -68,7 +54,6 @@ char	*checkzero(char *str, t_flags *flags)
 	int		nzero;
 	int		sign;
 
-	newstr = NULL;
 	if (!str || !flags->zero
 		|| flags->width - 2 * flags->hexsign <= (int) ft_strlen(str))
 		return (str);
@@ -77,15 +62,14 @@ char	*checkzero(char *str, t_flags *flags)
 		sign = 1;
 	nzero = flags->width - (int) ft_strlen(str) - 2 * flags->hexsign;
 	zerostr = malloc(nzero + sign + 1);
-	if (zerostr)
-	{
-		zerostr[nzero + sign] = 0;
-		ft_memset(zerostr + sign, '0', nzero);
-		if (sign)
-			zerostr[0] = *str;
-		newstr = ft_strjoin(zerostr, str + sign);
-		free(zerostr);
-	}
+	if (!zerostr)
+		return (freeandreturn(str, NULL));
+	zerostr[nzero + sign] = 0;
+	ft_memset(zerostr + sign, '0', nzero);
+	if (sign)
+		zerostr[0] = *str;
+	newstr = ft_strjoin(zerostr, str + sign);
+	free(zerostr);
 	free(str);
 	return (newstr);
 }
