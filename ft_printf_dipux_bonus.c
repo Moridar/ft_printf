@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 14:57:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/14 09:21:41 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/14 09:38:39 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	printd(int i, t_flags *flags)
 	str = checkzero(str, flags);
 	if (!str)
 		return (-1);
-	flags->precsion = ft_strlen(str);
+	flags->precsion = -1;
 	len = prints(str, flags);
 	free(str);
 	return (len);
