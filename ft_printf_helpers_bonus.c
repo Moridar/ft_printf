@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 09:06:52 by bsyvasal          #+#    #+#             */
-/*   Updated: 2023/11/14 09:20:48 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2023/11/15 11:38:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*checkzero(char *str, t_flags *flags)
 	int		nzero;
 	int		sign;
 
-	if (!str || !flags->zero
+	if (!str || !flags->zero || flags->leftjustify
 		|| flags->width - 2 * flags->hexsign <= (int) ft_strlen(str))
 		return (str);
 	sign = 0;
